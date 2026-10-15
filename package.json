@@ -1,0 +1,28 @@
+{
+  "name": "flowqueue",
+  "version": "1.0.0",
+  "description": "Distributed in-memory background job queue and task dispatcher with concurrency workers, retry backoff, and dead-letter dashboard.",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "keywords": [
+    "job-queue",
+    "background-jobs",
+    "bullmq-lite",
+    "celery-lite",
+    "concurrency",
+    "dead-letter-queue",
+    "websockets",
+    "dashboard"
+  ],
+  "author": "Sahil Chauhan (Sahil Rajput) <sahilrajput6244@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "socket.io": "^4.8.1"
+  }
+}

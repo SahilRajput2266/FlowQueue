@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FlowQueue — Distributed Background Job Queue & DLQ Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Header -->
+  <header class="app-header">
+    <div class="brand">
+      <div class="brand-logo">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+        </svg>
+      </div>
+      <div>
+        <h1 class="brand-title">FlowQueue</h1>
+        <div class="brand-sub"><span class="dot"></span> Distributed Job Mesh</div>
+      </div>
+    </div>
+
+    <!-- Stats HUD -->
+    <div class="stats-hud">
+      <div class="stat-pill"><span class="s-label">PENDING:</span> <strong id="statPending" class="text-amber">0</strong></div>
+      <div class="stat-pill"><span class="s-label">ACTIVE:</span> <strong id="statActive" class="text-cyan">0</strong></div>
+      <div class="stat-pill"><span class="s-label">COMPLETED:</span> <strong id="statCompleted" class="text-emerald">0</strong></div>
+      <div class="stat-pill"><span class="s-label">FAILED (DLQ):</span> <strong id="statFailed" class="text-rose">0</strong></div>
+    </div>
+
+    <!-- Actions -->
+    <div class="header-actions">
+      <div class="concurrency-picker">
+        <span>Workers:</span>
+        <button class="btn-c" data-c="1">1</button>
+        <button class="btn-c active" data-c="3">3</button>
+        <button class="btn-c" data-c="6">6</button>
+      </div>
+      <button id="btnTogglePause" class="btn-action btn-pause">Pause Queue</button>
+      <button id="btnDispatchBatch" class="btn-action btn-primary">+ Dispatch Batch (5x)</button>
+    </div>
+  </header>
+
+  <!-- Workspace -->
+  <main class="workspace">
+    <!-- Left: Jobs Table -->
+    <section class="jobs-table-section">
+      <div class="table-header-bar">
+        <span class="table-title">Live Job Registry</span>
+        <button id="btnDispatchFailing" class="btn-subtle text-rose">+ Inject Failing Job (Test DLQ)</button>
+      </div>
+
+      <div class="table-wrapper">
+        <table class="jobs-table">
+          <thead>
+            <tr>
+              <th>Job ID</th>
+              <th>Task Handler</th>
+              <th>Priority</th>
+              <th>Status</th>
+              <th>Attempts</th>
+              <th>Created</th>
+            </tr>
+          </thead>
+          <tbody id="jobsTableBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Right: Job Details & Log Streamer -->
+    <aside class="logs-sidebar">
+      <div class="sidebar-header">
+        <span>Worker Execution Logs</span>
+        <span id="activeJobId" class="badge-job">Select Job</span>
+      </div>
+      <div class="log-stream" id="logStream">
+        <div class="empty-logs">Click any job on the left to inspect its live worker stdout/stderr logs.</div>
+      </div>
+    </aside>
+  </main>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
